@@ -318,11 +318,77 @@ export default function Home() {
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 2px; }
 
+
+        /* ── MOBILE RESPONSIVE ─────────────────────────────── */
         @media (max-width: 768px) {
-          .nav { padding: 16px 20px; }
-          .nav.scrolled { padding: 12px 20px; }
-          .nav-links { display: none; }
+          .nav { padding: 14px 20px !important; }
+          .nav.scrolled { padding: 10px 20px !important; }
+          .nav-links { display: none !important; }
+
+          /* Hero */
+          section:first-of-type { padding: 100px 20px 60px !important; }
+          h1 { font-size: clamp(3rem, 16vw, 5rem) !important; }
+
+          /* Terminal card */
+          .floating { margin-top: 48px !important; }
+
+          /* How it works */
+          #how-it-works { padding: 80px 20px !important; }
+          #how-it-works > div > div:last-child {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 16px !important;
+          }
+
+          /* Profiles */
+          #profiles { padding: 80px 20px !important; }
+          #profiles > div > div:nth-child(3) {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Pricing */
+          #pricing { padding: 80px 20px !important; }
+          #pricing > div > div:last-child {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Story */
+          #story { padding: 80px 20px !important; }
+
+          /* Contact */
+          #contact { padding: 80px 20px !important; }
+          #contact > div:last-child {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Final CTA */
+          section:last-of-type { padding: 80px 20px !important; }
+
+          /* Footer */
+          footer { padding: 40px 20px 28px !important; }
+          footer > div > div:first-child {
+            flex-direction: column !important;
+            gap: 32px !important;
+          }
+          footer > div > div:first-child > div:last-child {
+            flex-direction: column !important;
+            gap: 28px !important;
+          }
+
+          /* Discord banner */
+          .divider + div { padding: 14px 20px !important; text-align: center; }
+
+          /* Buttons stack on mobile */
+          .btn-primary, .btn-secondary { padding: 14px 24px !important; font-size: 0.95rem !important; }
         }
+
+        @media (max-width: 480px) {
+          h1 { font-size: clamp(2.5rem, 18vw, 4rem) !important; }
+          #how-it-works > div > div:last-child {
+            grid-template-columns: 1fr !important;
+          }
+          .step-anim-wrap { width: 64px !important; height: 64px !important; }
+        }
+
       `}</style>
 
       {/* NAV */}
@@ -341,7 +407,7 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", padding: "120px 60px 80px", overflow: "hidden" }}>
+      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", padding: "clamp(100px,12vw,120px) clamp(20px,5vw,60px) 80px", overflow: "hidden" }}>
 
         {/* Background radial glow */}
         <div style={{ position: "absolute", top: "30%", left: "50%", transform: "translateX(-50%)", width: 800, height: 800, background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
@@ -412,7 +478,7 @@ export default function Home() {
       <div className="divider" />
 
       {/* ── HOW IT WORKS ──────────────────────────────────────── */}
-      <section id="how-it-works" style={{ padding: "120px 60px", maxWidth: 1200, margin: "0 auto" }}>
+      <section id="how-it-works" style={{ padding: "clamp(60px,8vw,120px) clamp(20px,5vw,60px)", maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 72 }}>
           <div className="section-label">HOW IT WORKS</div>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", letterSpacing: 2, lineHeight: 1 }}>
@@ -556,7 +622,7 @@ export default function Home() {
       <div className="divider" />
 
       {/* ── GAME PROFILES ─────────────────────────────────────── */}
-      <section id="profiles" style={{ padding: "120px 60px", maxWidth: 1200, margin: "0 auto" }}>
+      <section id="profiles" style={{ padding: "clamp(60px,8vw,120px) clamp(20px,5vw,60px)", maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 72 }}>
           <div className="section-label">GAME PROFILES</div>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", letterSpacing: 2, lineHeight: 1 }}>
@@ -568,7 +634,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
           {PROFILES.map((profile, i) => (
             <div key={i} className="card" style={{ padding: "28px", position: "relative", overflow: "hidden" }}>
               {/* Glow effect */}
@@ -621,7 +687,7 @@ export default function Home() {
       <div className="divider" />
 
       {/* ── PRICING ───────────────────────────────────────────── */}
-      <section id="pricing" style={{ padding: "120px 60px", maxWidth: 1000, margin: "0 auto" }}>
+      <section id="pricing" style={{ padding: "clamp(60px,8vw,120px) clamp(20px,5vw,60px)", maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 72 }}>
           <div className="section-label">PRICING</div>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", letterSpacing: 2, lineHeight: 1 }}>
@@ -630,7 +696,7 @@ export default function Home() {
           </h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
           {/* Free */}
           <div className="card" style={{ padding: "40px" }}>
             <div style={{ marginBottom: 32 }}>
@@ -691,7 +757,7 @@ export default function Home() {
       <div className="divider" />
 
       {/* ── ORIGIN STORY ──────────────────────────────────────── */}
-      <section id="story" style={{ padding: "120px 60px", maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+      <section id="story" style={{ padding: "clamp(60px,8vw,120px) clamp(20px,5vw,60px)", maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
         <div className="section-label">OUR STORY</div>
         <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", letterSpacing: 2, lineHeight: 1, marginBottom: 32 }}>
           BUILT FOR MARVEL SNAP.<br />
@@ -720,7 +786,7 @@ export default function Home() {
       <div className="divider" />
 
       {/* ── FINAL CTA ─────────────────────────────────────────── */}
-      <section style={{ padding: "120px 60px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+      <section style={{ padding: "clamp(60px,8vw,120px) clamp(20px,5vw,60px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 600, height: 600, background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 2 }}>
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3rem, 8vw, 6rem)", letterSpacing: 3, lineHeight: 0.95, marginBottom: 32 }}>
@@ -740,7 +806,7 @@ export default function Home() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" style={{ padding: "100px 60px", maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+      <section id="contact" style={{ padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
         <div className="section-label">CONTACT</div>
         <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(2.5rem, 5vw, 4rem)", letterSpacing: 2, lineHeight: 1, marginBottom: 16 }}>
           GET IN TOUCH
@@ -749,7 +815,7 @@ export default function Home() {
           Questions about ClipFury, feedback, partnership ideas, or just want to talk gaming? Reach out — we actually respond.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, maxWidth: 640, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16, maxWidth: 640, margin: "0 auto" }}>
           {[
             {
               label: "Discord",
@@ -802,11 +868,11 @@ export default function Home() {
       <div className="divider" />
 
       {/* FOOTER */}
-      <footer style={{ padding: "48px 60px 36px", maxWidth: "100%" }}>
+      <footer style={{ padding: "clamp(32px,5vw,48px) clamp(20px,5vw,60px) clamp(24px,4vw,36px)", maxWidth: "100%" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
 
           {/* Top row */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 40, flexWrap: "wrap", gap: 32 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 40, flexWrap: "wrap", gap: 32, flexDirection: "row" }}>
 
             {/* Brand */}
             <div style={{ maxWidth: 280 }}>
@@ -832,7 +898,7 @@ export default function Home() {
             </div>
 
             {/* Links */}
-            <div style={{ display: "flex", gap: 60, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
               <div>
                 <div style={{ fontSize: "0.75rem", fontWeight: 600, letterSpacing: 2, color: "rgba(255,255,255,0.25)", textTransform: "uppercase", marginBottom: 16 }}>Product</div>
                 {[["How It Works", "#how-it-works"], ["Game Profiles", "#profiles"], ["Pricing", "#pricing"], ["Download", GITHUB_URL]].map(([l, h]) => (
