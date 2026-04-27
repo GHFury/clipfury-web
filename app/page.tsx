@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const GITHUB_URL = "https://github.com/GHFury/clipfury/releases/latest/download/ClipFury-Setup-0.1.0-beta.exe";
+const GITHUB_URL = "https://github.com/GHFury/clipfury/releases/latest/download/ClipFury-Setup-0.1.1-beta.exe";
 
 const FREE_FEATURES = [
   "Automatic moment detection",
@@ -55,65 +55,65 @@ const STEPS = [
 
 const PROFILES = [
   {
-    game:   "Marvel Snap",
+    game: "Marvel Snap",
     status: "available",
-    desc:   "Detects every snap via click detection. Captures the full play sequence automatically. Steam compatible.",
+    desc: "Detects every snap via click detection. Captures the full play sequence automatically. Steam compatible.",
     method: "Click Detection",
-    color:  "#7C3AED",
-    glow:   "rgba(124,58,237,0.4)",
+    color: "#7C3AED",
+    glow: "rgba(124,58,237,0.4)",
   },
   {
-    game:   "Call of Duty",
+    game: "Call of Duty",
     status: "coming-soon",
-    desc:   "Kill streak and killcam detection. Never miss a multi-kill, nuke, or clutch warzone moment.",
+    desc: "Kill streak and killcam detection. Never miss a multi-kill, nuke, or clutch warzone moment.",
     method: "Region Detection",
-    color:  "#16A34A",
-    glow:   "rgba(22,163,74,0.3)",
+    color: "#16A34A",
+    glow: "rgba(22,163,74,0.3)",
   },
   {
-    game:   "GTA Online",
+    game: "GTA Online",
     status: "coming-soon",
-    desc:   "Heist, race, and action moment detection. Capture your best GTA Online plays automatically.",
+    desc: "Heist, race, and action moment detection. Capture your best GTA Online plays automatically.",
     method: "Region Detection",
-    color:  "#DC2626",
-    glow:   "rgba(220,38,38,0.3)",
+    color: "#DC2626",
+    glow: "rgba(220,38,38,0.3)",
   },
   {
-    game:   "Fortnite",
+    game: "Fortnite",
     status: "coming-soon",
-    desc:   "Kill feed monitoring and Victory Royale detection. Every elimination and clutch captured.",
+    desc: "Kill feed monitoring and Victory Royale detection. Every elimination and clutch captured.",
     method: "Region Detection",
-    color:  "#2563EB",
-    glow:   "rgba(37,99,235,0.3)",
+    color: "#2563EB",
+    glow: "rgba(37,99,235,0.3)",
   },
   {
-    game:   "Marathon",
+    game: "Marathon",
     status: "coming-soon",
-    desc:   "Bungie's new extraction shooter. Moment profiles ready at launch — day one support planned.",
+    desc: "Bungie's new extraction shooter. Moment profiles ready at launch — day one support planned.",
     method: "Audio + Region",
-    color:  "#0891B2",
-    glow:   "rgba(8,145,178,0.3)",
+    color: "#0891B2",
+    glow: "rgba(8,145,178,0.3)",
   },
   {
-    game:   "Arc Raiders",
+    game: "Arc Raiders",
     status: "coming-soon",
-    desc:   "PvEvP extraction moments, boss kills, and squad wipes. Built for the Arc Raiders community.",
+    desc: "PvEvP extraction moments, boss kills, and squad wipes. Built for the Arc Raiders community.",
     method: "Region Detection",
-    color:  "#D97706",
-    glow:   "rgba(217,119,6,0.3)",
+    color: "#D97706",
+    glow: "rgba(217,119,6,0.3)",
   },
   {
-    game:   "Your Game",
+    game: "Your Game",
     status: "build-it",
-    desc:   "Build a custom profile for any game. Define your own moments and share with the community.",
+    desc: "Build a custom profile for any game. Define your own moments and share with the community.",
     method: "Custom (Pro)",
-    color:  "#EC4899",
-    glow:   "rgba(236,72,153,0.3)",
+    color: "#EC4899",
+    glow: "rgba(236,72,153,0.3)",
   },
 ];
 
 export default function Home() {
-  const [scrollY,     setScrollY]     = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const [heroVisible, setHeroVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -451,18 +451,18 @@ export default function Home() {
           <div className="floating gradient-border" style={{ marginTop: 80, maxWidth: 560, margin: "80px auto 0", textAlign: "left" }}>
             <div className="gradient-border-inner" style={{ padding: "20px 24px" }}>
               <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
-                {["#ff5f57","#febc2e","#28c840"].map(c => (
+                {["#ff5f57", "#febc2e", "#28c840"].map(c => (
                   <div key={c} style={{ width: 12, height: 12, borderRadius: "50%", background: c }} />
                 ))}
                 <span style={{ marginLeft: 8, fontSize: "0.75rem", color: "rgba(255,255,255,0.2)", fontFamily: "monospace" }}>clipfury — moment detection</span>
               </div>
               {[
-                { text: "● Monitoring active — Marvel Snap",     color: "#a78bfa", delay: "0s"    },
+                { text: "● Monitoring active — Marvel Snap", color: "#a78bfa", delay: "0s" },
                 { text: "● Snap button click detected at (1280, 960)", color: "rgba(255,255,255,0.5)", delay: "0.3s" },
-                { text: "● Capturing last 90 seconds...",        color: "#60a5fa", delay: "0.6s"  },
+                { text: "● Capturing last 90 seconds...", color: "#60a5fa", delay: "0.6s" },
                 { text: "● Clip saved → ClipFury_2025-04-24.mp4", color: "#34d399", delay: "0.9s" },
-                { text: "● Auto-uploading to YouTube...",        color: "#fbbf24", delay: "1.2s"  },
-                { text: "● Done. Clip live in 3 seconds.",       color: "#34d399", delay: "1.5s"  },
+                { text: "● Auto-uploading to YouTube...", color: "#fbbf24", delay: "1.2s" },
+                { text: "● Done. Clip live in 3 seconds.", color: "#34d399", delay: "1.5s" },
               ].map((line, i) => (
                 <div key={i} style={{ fontFamily: "monospace", fontSize: "0.8rem", color: line.color, marginBottom: 8, opacity: 0, animation: `fadeIn 0.5s ease ${line.delay} forwards` }}>
                   {line.text}
@@ -540,8 +540,8 @@ export default function Home() {
                 {step.animType === "download" && (
                   <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 2 }}>
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ animation: "downloadPulse 1.8s ease-in-out infinite" }}>
-                      <path d="M14 4v14M7 12l7 7 7-7" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M4 22h20" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round"/>
+                      <path d="M14 4v14M7 12l7 7 7-7" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M4 22h20" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" />
                     </svg>
                     <div style={{ width: 32, height: 2, background: "rgba(124,58,237,0.3)", borderRadius: 1 }} />
                   </div>
@@ -549,7 +549,7 @@ export default function Home() {
                 {step.animType === "profile" && (
                   <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 4, width: 40 }}>
-                      {["Marvel Snap","Fortnite","Call of Duty"].map((g,gi) => (
+                      {["Marvel Snap", "Fortnite", "Call of Duty"].map((g, gi) => (
                         <div key={gi} style={{ display: "flex", alignItems: "center", gap: 4 }}>
                           <div style={{ width: 6, height: 6, borderRadius: "50%", background: gi === 0 ? "#a78bfa" : "rgba(255,255,255,0.15)", transition: "background 0.3s", flexShrink: 0, boxShadow: gi === 0 ? "0 0 6px #7c3aed" : "none" }} />
                           <div style={{ height: 3, borderRadius: 2, background: gi === 0 ? "rgba(124,58,237,0.6)" : "rgba(255,255,255,0.08)", flex: 1 }} />
@@ -586,10 +586,10 @@ export default function Home() {
                 {step.animType === "start" && (
                   <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 4 }}>
                     <div style={{ fontSize: "0.55rem", fontFamily: "monospace", color: "#a78bfa", letterSpacing: 2, animation: "pressStart 1.2s ease-in-out infinite", textAlign: "center", lineHeight: 1.4 }}>
-                      PRESS<br/>START
+                      PRESS<br />START
                     </div>
                     <div style={{ display: "flex", gap: 3 }}>
-                      {[0,1,2].map(d => (
+                      {[0, 1, 2].map(d => (
                         <div key={d} style={{ width: 4, height: 4, borderRadius: "50%", background: "#7c3aed", animation: `blink 1.2s ease-in-out ${d * 0.2}s infinite` }} />
                       ))}
                     </div>
@@ -607,7 +607,7 @@ export default function Home() {
 
       {/* DISCORD BANNER */}
       <div style={{ background: "rgba(88,101,242,0.08)", borderTop: "1px solid rgba(88,101,242,0.15)", borderBottom: "1px solid rgba(88,101,242,0.15)", padding: "14px 60px", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" /></svg>
         <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.5)" }}>
           Still have questions after reading? Join the ClipFury community on Discord —
         </span>
@@ -646,8 +646,8 @@ export default function Home() {
                   fontSize: "0.7rem", fontWeight: 600, letterSpacing: 1, textTransform: "uppercase",
                   padding: "4px 10px", borderRadius: 100,
                   background: profile.status === "available" ? "rgba(52,211,153,0.12)" : profile.status === "build-it" ? "rgba(217,119,6,0.12)" : "rgba(255,255,255,0.06)",
-                  color:      profile.status === "available" ? "#34d399"              : profile.status === "build-it" ? "#fbbf24"              : "rgba(255,255,255,0.35)",
-                  border:     `1px solid ${profile.status === "available" ? "rgba(52,211,153,0.2)" : profile.status === "build-it" ? "rgba(217,119,6,0.2)" : "rgba(255,255,255,0.1)"}`,
+                  color: profile.status === "available" ? "#34d399" : profile.status === "build-it" ? "#fbbf24" : "rgba(255,255,255,0.35)",
+                  border: `1px solid ${profile.status === "available" ? "rgba(52,211,153,0.2)" : profile.status === "build-it" ? "rgba(217,119,6,0.2)" : "rgba(255,255,255,0.1)"}`,
                 }}>
                   {profile.status === "available" ? "Available" : profile.status === "build-it" ? "Pro" : "Soon"}
                 </span>
@@ -666,7 +666,7 @@ export default function Home() {
         {/* Steam + platform callout */}
         <div style={{ marginTop: 48, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "12px 20px" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm-1 3v6l5 3-1 1.732-6-3.464V7h2z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#a78bfa"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm-1 3v6l5 3-1 1.732-6-3.464V7h2z" /></svg>
             <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)" }}>Steam compatible — works with Steam games on Windows</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "12px 20px" }}>
@@ -819,35 +819,35 @@ export default function Home() {
           {[
             {
               label: "Discord",
-              sub:   "Join the community",
-              href:  "https://discord.gg/snapfury",
+              sub: "Join the community",
+              href: "https://discord.gg/snapfury",
               color: "#5865F2",
               icon: (
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="#5865F2">
-                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
                 </svg>
               )
             },
             {
               label: "Twitter / X",
-              sub:   "Follow updates",
-              href:  "https://x.com/M_SnapFury",
+              sub: "Follow updates",
+              href: "https://x.com/M_SnapFury",
               color: "#ffffff",
               icon: (
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               )
             },
             {
               label: "Email",
-              sub:   "Direct message",
-              href:  "mailto:m.snapfury@gmail.com",
+              sub: "Direct message",
+              href: "mailto:m.snapfury@gmail.com",
               color: "#34d399",
               icon: (
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
                 </svg>
               )
             },
@@ -882,10 +882,10 @@ export default function Home() {
               </p>
               <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
                 {[
-                  { href: "https://discord.gg/snapfury", color: "#5865F2", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg> },
-                  { href: "https://x.com/M_SnapFury",    color: "#ffffff", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> },
-                  { href: "https://youtube.com/@fury-msnap", color: "#FF0000", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> },
-                  { href: "https://github.com/GHFury/clipfury", color: "#ffffff", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg> },
+                  { href: "https://discord.gg/snapfury", color: "#5865F2", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" /></svg> },
+                  { href: "https://x.com/M_SnapFury", color: "#ffffff", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg> },
+                  { href: "https://youtube.com/@fury-msnap", color: "#FF0000", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg> },
+                  { href: "https://github.com/GHFury/clipfury", color: "#ffffff", icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" /></svg> },
                 ].map((s, i) => (
                   <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
                     style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s", textDecoration: "none" }}
