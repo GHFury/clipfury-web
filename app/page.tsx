@@ -113,16 +113,38 @@ const PROFILES = [
 ];
 
 export default function Home() {
-  const [scrollY,     setScrollY]     = useState(0);
-  const [heroVisible, setHeroVisible] = useState(false);
+  const [scrollY,       setScrollY]     = useState(0);
+  const [heroVisible,   setHeroVisible] = useState(false);
+  const [founderCount,  setFounderCount] = useState(0);
+  const [checkingOut,   setCheckingOut]  = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+  const FOUNDER_LIMIT = 100;
 
   useEffect(() => {
     setHeroVisible(true);
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
+    // Fetch live founder count
+    fetch("/api/license/founder-count")
+      .then(r => r.json())
+      .then(d => setFounderCount(d.count))
+      .catch(() => {});
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleCheckout = async () => {
+    setCheckingOut(true);
+    try {
+      const res  = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}) });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      setCheckingOut(false);
+    }
+  };
+
+  const founderRemaining = Math.max(0, FOUNDER_LIMIT - founderCount);
+  const isFounderAvailable = founderRemaining > 0;
 
   return (
     <div style={{ fontFamily: "'Inter', sans-serif", background: "#080808", color: "white", overflowX: "hidden" }}>
@@ -743,11 +765,12 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <button className="btn-primary" style={{ width: "100%", justifyContent: "center", cursor: "not-allowed", opacity: 0.7 }}>
-                Coming Soon — Join Waitlist
+              <button className="btn-primary" onClick={handleCheckout} disabled={checkingOut}
+                style={{ width: "100%", justifyContent: "center", cursor: checkingOut ? "wait" : "pointer" }}>
+                {checkingOut ? "Redirecting to checkout..." : `Get Pro — ${isFounderAvailable ? "$8" : "$15"} one-time`}
               </button>
               <div style={{ textAlign: "center", marginTop: 12, fontSize: "0.78rem", color: "rgba(255,255,255,0.25)" }}>
-                Early adopters get 3 months free when Pro launches
+                License key delivered by email · Activates on 1 device
               </div>
             </div>
           </div>
