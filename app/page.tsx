@@ -753,26 +753,27 @@ export default function Home() {
                   <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "4rem", letterSpacing: 2, lineHeight: 1 }}>{isFounderAvailable ? "$8" : "$15"}</div>
                   <div style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.875rem" }}>one-time</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
-                  {PRO_FEATURES.map((f, i) => (
-                    <div key={i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <span style={{ fontSize: "0.6rem", color: "#a78bfa" }}>✓</span>
-                      </div>
-                      <span style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.7)", fontWeight: f === "All free features" ? 600 : 400 }}>{f}</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
+                {PRO_FEATURES.map((f, i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    <div style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: "0.6rem", color: "#a78bfa" }}>✓</span>
                     </div>
-                  ))}
-                </div>
-                <button className="btn-primary" onClick={handleCheckout} disabled={checkingOut}
-                  style={{ width: "100%", justifyContent: "center", cursor: checkingOut ? "wait" : "pointer" }}>
-                  {checkingOut ? "Redirecting to checkout..." : `Get Pro — ${isFounderAvailable ? "$8" : "$15"} one-time`}
-                </button>
-                <div style={{ textAlign: "center", marginTop: 12, fontSize: "0.78rem", color: "rgba(255,255,255,0.25)" }}>
-                  License key delivered by email · Activates on 1 device
-                </div>
+                    <span style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.7)", fontWeight: f === "Everything in Free" ? 600 : 400 }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="btn-primary" onClick={handleCheckout} disabled={checkingOut}
+                style={{ width: "100%", justifyContent: "center", cursor: checkingOut ? "wait" : "pointer" }}>
+                {checkingOut ? "Redirecting to checkout..." : `Get Pro — ${isFounderAvailable ? "$8" : "$15"} one-time`}
+              </button>
+              <div style={{ textAlign: "center", marginTop: 12, fontSize: "0.78rem", color: "rgba(255,255,255,0.25)" }}>
+                License key delivered by email · Activates on 1 device
               </div>
             </div>
           </div>
+        </div>
       </section>
 
       <div className="divider" />
