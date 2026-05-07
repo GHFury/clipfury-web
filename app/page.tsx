@@ -719,6 +719,7 @@ export default function Home() {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+
           {/* Free */}
           <div className="card" style={{ padding: "40px" }}>
             <div style={{ marginBottom: 32 }}>
@@ -736,7 +737,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <a href={GITHUB_URL} className="btn-secondary" style={{ width: "100%", justifyContent: "center" }}>
+            <a href={GITHUB_URL} className="btn-secondary" style={{ width: "100%", justifyContent: "center", display: "flex" }}>
               Download Free
             </a>
           </div>
@@ -747,13 +748,45 @@ export default function Home() {
               <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg, #7c3aed, #6d28d9)", padding: "4px 16px", borderRadius: 100, fontSize: "0.75rem", fontWeight: 700, letterSpacing: 1, whiteSpace: "nowrap" }}>
                 MOST POPULAR
               </div>
-              <div style={{ marginBottom: 32 }}>
-                <div style={{ fontSize: "0.8rem", fontWeight: 600, letterSpacing: 2, color: "#a78bfa", textTransform: "uppercase", marginBottom: 12 }}>ClipFury Pro</div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "4rem", letterSpacing: 2, lineHeight: 1 }}>{isFounderAvailable ? "$8" : "$15"}</div>
-                  <div style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.875rem" }}>one-time</div>
+
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: "0.8rem", fontWeight: 600, letterSpacing: 2, color: "#a78bfa", textTransform: "uppercase", marginBottom: 12 }}>
+                  ClipFury Pro
                 </div>
+
+                {/* Founder price */}
+                {isFounderAvailable && (
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "4rem", letterSpacing: 2, lineHeight: 1 }}>$8</div>
+                      <div style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.875rem" }}>one-time</div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                      <span style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)", borderRadius: 100, padding: "3px 10px", fontSize: "0.72rem", color: "#a78bfa" }}>
+                        ⚡ {founderRemaining} of {FOUNDER_LIMIT} founder spots left
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8 }}>
+                      <span style={{ color: "rgba(255,255,255,0.2)", textDecoration: "line-through", fontSize: "0.875rem" }}>$15</span>
+                      <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)" }}>regular price after founders sell out</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Regular price — shown when founders sold out */}
+                {!isFounderAvailable && (
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "4rem", letterSpacing: 2, lineHeight: 1 }}>$15</div>
+                      <div style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.875rem" }}>one-time</div>
+                    </div>
+                    <div style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.875rem", marginTop: 8 }}>
+                      Lifetime access — pay once, own it forever
+                    </div>
+                  </div>
+                )}
               </div>
+
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 36 }}>
                 {PRO_FEATURES.map((f, i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
@@ -764,15 +797,17 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+
               <button className="btn-primary" onClick={handleCheckout} disabled={checkingOut}
                 style={{ width: "100%", justifyContent: "center", cursor: checkingOut ? "wait" : "pointer" }}>
-                {checkingOut ? "Redirecting to checkout..." : `Get Pro — ${isFounderAvailable ? "$8" : "$15"} one-time`}
+                {checkingOut ? "Redirecting..." : `Get Pro — ${isFounderAvailable ? "$8" : "$15"} one-time`}
               </button>
               <div style={{ textAlign: "center", marginTop: 12, fontSize: "0.78rem", color: "rgba(255,255,255,0.25)" }}>
                 License key delivered by email · Activates on 1 device
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
