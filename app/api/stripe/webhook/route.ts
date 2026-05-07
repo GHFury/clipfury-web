@@ -5,11 +5,10 @@ import { generateLicenseKey } from "@/lib/license";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-// Disable body parsing so we can verify the raw Stripe signature
 export const config = { api: { bodyParser: false } };
 
 export async function POST(req: NextRequest) {
-  const body = await req.text();
+  const body      = await req.text();
   const signature = req.headers.get("stripe-signature")!;
 
   let event: Stripe.Event;
@@ -27,8 +26,24 @@ export async function POST(req: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const email = session.customer_email!;
+
+    // Only process fully paid sessions
+    if (session.payment_status !== "paid") {
+      console.log("Session not paid yet, skipping:", session.payment_status);
+      return NextResponse.json({ received: true });
+    }
+
+    // Email can come from customer_email or customer_details
+    const email = session.customer_email || session.customer_details?.email;
+
+    if (!email) {
+      console.error("No email found in session:", session.id);
+      return NextResponse.json({ received: true });
+    }
+
     const isFounder = session.metadata?.founder === "true";
+
+    console.log("Processing completed payment for:", email, "founder:", isFounder);
 
     // Generate a unique license key
     const key = generateLicenseKey();
@@ -37,7 +52,7 @@ export async function POST(req: NextRequest) {
     await createLicense({
       key,
       email,
-      founder: isFounder,
+      founder:         isFounder,
       stripeSessionId: session.id,
     });
 
@@ -55,21 +70,22 @@ export async function POST(req: NextRequest) {
 
 async function sendLicenseEmail(email: string, key: string, isFounder: boolean) {
   console.log("Attempting to send email to:", email, "key:", key);
+
   const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
+    method:  "POST",
     headers: {
       "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
+      "Content-Type":  "application/json",
     },
     body: JSON.stringify({
-      from: "ClipFury <onboarding@resend.dev>",
-      to: email,
+      from:    "ClipFury <onboarding@resend.dev>",
+      to:      email,
       subject: isFounder
         ? "🔥 Your ClipFury Pro Founder's Key is here"
         : "Your ClipFury Pro License Key",
       html: `
         <div style="font-family:sans-serif;max-width:560px;margin:0 auto;background:#0a0a0a;color:white;padding:40px;border-radius:12px;">
-          <div style="font-size:2rem;font-weight:900;letter-spacing:4px;margin-bottom:8px;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          <div style="font-size:2rem;font-weight:900;letter-spacing:4px;margin-bottom:8px;">
             CLIPFURY
           </div>
           ${isFounder ? `
@@ -81,14 +97,12 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
             Thank you for upgrading to ClipFury Pro. Your license key is below.
             Copy it and enter it in the app under <strong style="color:white;">Settings → Pro</strong>.
           </p>
-
           <div style="background:#111;border:1px solid rgba(124,58,237,0.4);border-radius:8px;padding:20px;text-align:center;margin-bottom:24px;">
             <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-bottom:8px;">YOUR LICENSE KEY</div>
             <div style="font-family:monospace;font-size:1.4rem;font-weight:700;letter-spacing:3px;color:#a78bfa;">
               ${key}
             </div>
           </div>
-
           <div style="background:rgba(255,255,255,0.03);border-radius:8px;padding:16px;margin-bottom:24px;">
             <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:2px;margin-bottom:10px;">HOW TO ACTIVATE</div>
             <ol style="color:rgba(255,255,255,0.6);font-size:0.875rem;line-height:2;padding-left:20px;">
@@ -98,7 +112,6 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
               <li>Paste your key and click Activate</li>
             </ol>
           </div>
-
           <p style="color:rgba(255,255,255,0.3);font-size:0.8rem;line-height:1.6;">
             This key activates on 1 device. Keep it safe — it cannot be recovered if lost.
             Questions? Email <a href="mailto:m.snapfury@gmail.com" style="color:#a78bfa;">m.snapfury@gmail.com</a>
@@ -111,10 +124,8 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
   if (!res.ok) {
     const err = await res.text();
     console.error("Failed to send license email:", err);
-  }
-  else {
-    const success = res.json();
-    console.log("email sent successfully:", success);
+  } else {
+    const success = await res.json(); // Fixed — was missing await
+    console.log("Email sent successfully:", success);
   }
 }
-
