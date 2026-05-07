@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export const config = { api: { bodyParser: false } };
 
 export async function POST(req: NextRequest) {
-  const body      = await req.text();
+  const body = await req.text();
   const signature = req.headers.get("stripe-signature")!;
 
   let event: Stripe.Event;
@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
   }
 
   if (event.type === "checkout.session.completed") {
-    const session  = event.data.object as Stripe.Checkout.Session;
-    const email    = session.customer_email!;
+    const session = event.data.object as Stripe.Checkout.Session;
+    const email = session.customer_email!;
     const isFounder = session.metadata?.founder === "true";
 
     // Generate a unique license key
@@ -56,14 +56,14 @@ export async function POST(req: NextRequest) {
 async function sendLicenseEmail(email: string, key: string, isFounder: boolean) {
   // Using Resend for transactional email — simple API, free tier covers early stage
   const res = await fetch("https://api.resend.com/emails", {
-    method:  "POST",
+    method: "POST",
     headers: {
       "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type":  "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from:    "ClipFury <noreply@clipfury.net>",
-      to:      email,
+      from: "ClipFury <onboarding@resend.dev>",
+      to: email,
       subject: isFounder
         ? "🔥 Your ClipFury Pro Founder's Key is here"
         : "Your ClipFury Pro License Key",
