@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function sendLicenseEmail(email: string, key: string, isFounder: boolean) {
-  // Using Resend for transactional email — simple API, free tier covers early stage
+  console.log("Attempting to send email to:", email, "key:", key);
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -112,4 +112,9 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
     const err = await res.text();
     console.error("Failed to send license email:", err);
   }
+  else {
+    const success = res.json();
+    console.log("email sent successfully:", success);
+  }
 }
+
