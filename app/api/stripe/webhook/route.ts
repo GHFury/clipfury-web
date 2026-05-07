@@ -12,20 +12,16 @@ export async function POST(req: NextRequest) {
   const signature = req.headers.get("stripe-signature")!;
 
   let event: Stripe.Event;
-  // Temporary - bypass signature check to test connectivity
-  //  try {
-  //    event = stripe.webhooks.constructEvent(
-  //      body,
-  //      signature,
-  //      process.env.STRIPE_WEBHOOK_SECRET!
-  //    );
-  //  } catch (err: any) {
-  //    console.error("Webhook signature verification failed:", err.message);
-  //    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  //  }
-
-  // Temporary - parse body directly
-  event = JSON.parse(body) as Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET!
+    );
+  } catch (err: any) {
+    console.error("Webhook signature verification failed:", err.message);
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
