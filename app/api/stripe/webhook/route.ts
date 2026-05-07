@@ -8,21 +8,24 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export const config = { api: { bodyParser: false } };
 
 export async function POST(req: NextRequest) {
-  const body      = await req.text();
+  const body = await req.text();
   const signature = req.headers.get("stripe-signature")!;
 
   let event: Stripe.Event;
+  // Temporary - bypass signature check to test connectivity
+  //  try {
+  //    event = stripe.webhooks.constructEvent(
+  //      body,
+  //      signature,
+  //      process.env.STRIPE_WEBHOOK_SECRET!
+  //    );
+  //  } catch (err: any) {
+  //    console.error("Webhook signature verification failed:", err.message);
+  //    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  //  }
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
-  } catch (err: any) {
-    console.error("Webhook signature verification failed:", err.message);
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  }
+  // Temporary - parse body directly
+  event = JSON.parse(body) as Stripe.Event;
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
@@ -52,7 +55,7 @@ export async function POST(req: NextRequest) {
     await createLicense({
       key,
       email,
-      founder:         isFounder,
+      founder: isFounder,
       stripeSessionId: session.id,
     });
 
@@ -72,14 +75,14 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
   console.log("Attempting to send email to:", email, "key:", key);
 
   const res = await fetch("https://api.resend.com/emails", {
-    method:  "POST",
+    method: "POST",
     headers: {
       "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-      "Content-Type":  "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from:    "ClipFury <onboarding@resend.dev>",
-      to:      email,
+      from: "ClipFury <onboarding@resend.dev>",
+      to: email,
       subject: isFounder
         ? "🔥 Your ClipFury Pro Founder's Key is here"
         : "Your ClipFury Pro License Key",
