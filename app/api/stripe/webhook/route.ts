@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     }
 
     const email = session.customer_email || session.customer_details?.email;
-
     if (!email) {
       console.error("No email found in session:", session.id);
       return NextResponse.json({ received: true });
@@ -43,11 +42,9 @@ export async function POST(req: NextRequest) {
     console.log("Processing completed payment for:", email, "founder:", isFounder);
 
     const key = generateLicenseKey();
-
     await createLicense({ key, email, founder: isFounder, stripeSessionId: session.id });
     if (isFounder) await incrementFounderCount();
     await sendLicenseEmail(email, key, isFounder);
-
     console.log(`License issued: ${key} to ${email} (founder: ${isFounder})`);
   }
 
@@ -61,18 +58,12 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
     ? "Your ClipFury Pro Founder's Key is here"
     : "Your ClipFury Pro License Key";
 
-  const founderBadge = isFounder ? `
-    <tr>
-      <td style="padding:0 40px 20px;">
-        <div style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:6px;padding:10px 16px;">
-          <p style="margin:0;font-size:13px;color:#a78bfa;letter-spacing:1px;font-weight:600;">
-            FOUNDER'S EDITION &mdash; Thank you for being one of the first 100
-          </p>
-        </div>
-      </td>
-    </tr>` : "";
-
-  const steps = ["Open ClipFury", "Right-click the tray icon &rarr; Settings", "Click the Pro tab", "Paste your key and click Activate"];
+  const steps = [
+    "Open ClipFury",
+    "Right-click the tray icon &rarr; Settings",
+    "Click the Pro tab",
+    "Paste your key and click Activate",
+  ];
 
   const html = `<!DOCTYPE html>
 <html>
@@ -82,36 +73,41 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
 <tr><td align="center">
 <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
-  <!-- HEADER -->
+  <!-- HEADER with character -->
   <tr>
-    <td style="background:#0a0a0a;border-radius:12px 12px 0 0;padding:32px 40px;text-align:center;border-bottom:1px solid rgba(124,58,237,0.3);">
-      <img src="https://www.clipfury.net/logo.JPEG" alt="ClipFury" width="80" height="80"
-        style="border-radius:50%;border:2px solid rgba(124,58,237,0.5);display:block;margin:0 auto 16px;"/>
+    <td style="background:#0a0a0a;border-radius:12px 12px 0 0;padding:32px 40px 24px;text-align:center;border-bottom:1px solid rgba(124,58,237,0.3);">
+      <img src="https://www.clipfury.net/hero-character.JPEG" alt="ClipFury"
+        width="100" height="110"
+        style="display:block;margin:0 auto 16px;object-fit:cover;object-position:top;"/>
       <p style="margin:0;font-size:28px;font-weight:900;letter-spacing:6px;color:white;">CLIPFURY</p>
       <p style="margin:6px 0 0;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px;">AUTOMATIC MOMENT CAPTURE</p>
     </td>
   </tr>
 
-  <!-- TITLE -->
+  <!-- BODY -->
   <tr>
-    <td style="background:#111118;padding:32px 40px 20px;">
-      <h2 style="margin:0 0 12px;font-size:22px;font-weight:700;color:white;">Your Pro License Key</h2>
-      <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.55);line-height:1.7;">
+    <td style="background:#111118;padding:28px 40px 20px;">
+      <h2 style="margin:0 0 10px;font-size:20px;font-weight:700;color:white;">Your Pro License Key</h2>
+      ${isFounder ? `
+      <div style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.4);border-radius:6px;padding:10px 14px;margin:14px 0;">
+        <p style="margin:0;font-size:12px;color:#a78bfa;letter-spacing:1px;font-weight:600;">
+          FOUNDER'S EDITION &mdash; Thank you for being one of the first 100
+        </p>
+      </div>` : ""}
+      <p style="margin:${isFounder ? "0" : "10px"} 0 0;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">
         Thank you for upgrading to ClipFury Pro. Your license key is below.
         Copy it and enter it in the app under <strong style="color:white;">Settings &rarr; Pro</strong>.
       </p>
     </td>
   </tr>
 
-  ${founderBadge}
-
   <!-- KEY BOX -->
   <tr>
-    <td style="background:#111118;padding:0 40px 28px;">
+    <td style="background:#111118;padding:16px 40px 24px;">
       <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;border:1px solid rgba(124,58,237,0.4);border-radius:8px;">
         <tr>
-          <td style="padding:24px;text-align:center;">
-            <p style="margin:0 0 10px;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;">Your License Key</p>
+          <td style="padding:22px;text-align:center;">
+            <p style="margin:0 0 8px;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;">Your License Key</p>
             <p style="margin:0;font-family:'Courier New',monospace;font-size:22px;font-weight:700;letter-spacing:4px;color:#a78bfa;">${key}</p>
           </td>
         </tr>
@@ -121,15 +117,15 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
 
   <!-- HOW TO ACTIVATE -->
   <tr>
-    <td style="background:#111118;padding:0 40px 28px;">
+    <td style="background:#111118;padding:0 40px 24px;">
       <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;">
         <tr>
           <td style="padding:20px;">
-            <p style="margin:0 0 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;">How to Activate</p>
+            <p style="margin:0 0 14px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:3px;text-transform:uppercase;">How to Activate</p>
             <table cellpadding="0" cellspacing="0">
               ${steps.map((step, i) => `
               <tr>
-                <td style="padding:5px 12px 5px 0;vertical-align:top;">
+                <td style="padding:5px 12px 5px 0;vertical-align:middle;">
                   <div style="width:22px;height:22px;border-radius:50%;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);text-align:center;line-height:22px;font-size:11px;color:#a78bfa;font-weight:700;">${i + 1}</div>
                 </td>
                 <td style="padding:5px 0;font-size:14px;color:rgba(255,255,255,0.6);line-height:1.5;">${step}</td>
@@ -143,8 +139,8 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
 
   <!-- FOOTER -->
   <tr>
-    <td style="background:#111118;border-radius:0 0 12px 12px;padding:0 40px 28px;border-top:1px solid rgba(255,255,255,0.06);">
-      <p style="margin:20px 0 0;font-size:13px;color:rgba(255,255,255,0.25);line-height:1.7;">
+    <td style="background:#111118;border-radius:0 0 12px 12px;padding:0 40px 24px;border-top:1px solid rgba(255,255,255,0.06);">
+      <p style="margin:20px 0 0;font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7;">
         This key activates on 1 device. Keep it safe &mdash; it cannot be recovered if lost.<br/>
         Questions? Email <a href="mailto:m.snapfury@gmail.com" style="color:#a78bfa;text-decoration:none;">m.snapfury@gmail.com</a>
       </p>
