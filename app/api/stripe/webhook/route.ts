@@ -77,7 +77,7 @@ async function sendLicenseEmail(email: string, key: string, isFounder: boolean) 
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "ClipFury <onboarding@resend.dev>",
+      from: "ClipFury <noreply@clipfury.net>",
       to: email,
       subject: isFounder
         ? "🔥 Your ClipFury Pro Founder's Key is here"
